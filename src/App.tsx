@@ -1,12 +1,13 @@
 import React from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from './theme';
+import Form from './Form/Container';
 
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <h1>React Form Exercise</h1>
+      <Form />
     </ThemeProvider>
   );
 }
