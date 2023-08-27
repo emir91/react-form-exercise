@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
-import { BUTTON_LABEL } from "../constants";
+import { BUTTON_LABEL, NAME_INPUT_LABEL, EMAIL_INPUT_LABEL, TEXTAREA_LABEL } from "../constants";
 import { StyledFromElement, StyledTextArea, SubmitButton } from "../styledComponents";
 
 const ContactForm = () => {
@@ -14,14 +14,14 @@ const ContactForm = () => {
         spacing={5}
       >
         <Grid item>
-          <StyledFromElement label="Name*" variant="standard" />
+          <StyledFromElement label={NAME_INPUT_LABEL} variant="standard" />
         </Grid>
         <Grid item>
-          <StyledFromElement label="Email address" variant="standard" />
+          <StyledFromElement label={EMAIL_INPUT_LABEL} variant="standard" />
         </Grid>
         <Grid item xs={9}>
           <StyledTextArea
-            label="message (max 300 characters)*"
+            label={TEXTAREA_LABEL}
             multiline
             rows={4}
           />
