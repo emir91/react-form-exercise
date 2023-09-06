@@ -9,7 +9,7 @@ export const FormContainer = styled(Grid)(({ theme }) => ({
     marginTop: theme.spacing(4),
 }));
 
-export const StyledFromElement = styled(TextField)(({ theme }) => ({
+export const StyledInputElement = styled(TextField)(({ theme }) => ({
     '& .MuiInput-input': {
         width: 400,
     }
