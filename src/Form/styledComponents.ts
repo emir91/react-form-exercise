@@ -30,3 +30,8 @@ export const FormTitle = styled(Typography)(({ theme }) => ({
 export const SubmitButton = styled(Button)(({ theme }) => ({
     padding: theme.spacing(1, 8)
 }));
+
+export const ErrorMessage = styled(Typography)(({ theme }) => ({
+    color: "red",
+    paddingTop: theme.spacing(1)
+}));
