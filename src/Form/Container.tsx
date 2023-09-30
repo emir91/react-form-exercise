@@ -1,39 +1,53 @@
 import React, { useState } from "react";
+import { AlertColor } from '@mui/material/Alert';
 import { Grid } from "@mui/material";
-import { FORM_TITLE } from "./constants";
+import useValidation from "./validation/useValidation";
 import ContactForm from "./ContactForm/ContactForm";
+import Notification from "./Notifications/Notifications";
 import { StyledPaper, FormContainer, FormTitle } from "./styledComponents";
+import { FORM_TITLE, RESULT, STATUS, ALERT_COLORS, INITIAL_VALUES } from "./constants";
+import { contactFormConfig } from './validation/validationConfigs';
 
 const Container = () => {
-  const [emailForm, setEmailForm] = useState({
-    name: '',
-    email: '',
-    message: '',
-});
-const [result, setResult] = useState('');
-const [status, setStatus] = useState('Submit');
+const [result, setResult] = useState(RESULT.DEFAULT);
+const [status, setStatus] = useState(STATUS.SUBMIT);
+const [snackbarOpen, setSnackbarOpen] = useState(false);
+const [snackbarType, setSnackbarType] = useState<AlertColor>(ALERT_COLORS.SUCCESS);
 
-const resetEmailForm = (): void => {
-  setEmailForm({name: '', email: '', message: ''});
-}
+const { values, setValues, errors, handleChange, handleBlur, areFieldsEmpty } = useValidation(INITIAL_VALUES, contactFormConfig);
 
-const formDataChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  setEmailForm((prevData) => {
-    if(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
-      return {
-        ...prevData,
-        [event?.target?.name]: event?.target?.value
-      }
-    }
-    return prevData;
-  });
-  if (result.length > 0) {
-    setResult('');
-}
-}
+const handleSubmit = () => {
+  if(areFieldsEmpty(values)) {
+    setSnackbarType(ALERT_COLORS.ERROR);
+    setResult(RESULT.ERROR);
+    setStatus(STATUS.NOT_SENT);
+  } else {
+    setSnackbarType(ALERT_COLORS.SUCCESS);
+    setResult(RESULT.SUCCESS);
+    setStatus(STATUS.SENT);
+  }
+
+  setSnackbarOpen(true);
+  setValues(INITIAL_VALUES);
+
+  setTimeout(() => {
+    setSnackbarOpen(false);
+    setResult(RESULT.DEFAULT);
+    setStatus(STATUS.SUBMIT);
+  }, 5000)
+  
+};
 
   return (
     <FormContainer container justifyContent='center'>
+      {snackbarOpen && (
+        <Notification 
+          snackbarOpen={snackbarOpen} 
+          setSnackbarOpen={setSnackbarOpen} 
+          snackbarType={snackbarType} 
+          result={result}
+        />
+      )}
       <StyledPaper elevation={3} >
         <Grid
           container
@@ -46,7 +60,14 @@ const formDataChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLT
             <FormTitle variant="h4">{FORM_TITLE}</FormTitle>
           </Grid>
           <Grid item>
-            <ContactForm emailFormData={emailForm} result={result} status={status} resetEmailForm={resetEmailForm} formDataChangeHandler={formDataChangeHandler}/>
+            <ContactForm 
+              emailFormData={values} 
+              errors={errors}  
+              status={status} 
+              formDataChangeHandler={handleChange} 
+              formDataBlurHandler={handleBlur}
+              formDataSubmitHandler={handleSubmit}
+            />
           </Grid>
         </Grid>
       </StyledPaper>

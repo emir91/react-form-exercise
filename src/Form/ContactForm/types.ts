@@ -1,13 +1,14 @@
-type EmailFormData = {
+export type FormData = {
     name: string,
     email: string,
     message: string,
 };
 
 export type FormProps = {
-  emailFormData: EmailFormData,
-  result: string,
+  emailFormData: FormData,
+  errors: FormData,
   status: string,
-  resetEmailForm: () => void,
-  formDataChangeHandler: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  formDataChangeHandler?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
+  formDataBlurHandler?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
+  formDataSubmitHandler?: () => void,
 };
