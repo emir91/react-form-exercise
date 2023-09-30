@@ -1,4 +1,4 @@
-type FormData = {
+export type FormData = {
     name: string,
     email: string,
     message: string,
@@ -7,8 +7,8 @@ type FormData = {
 export type FormProps = {
   emailFormData: FormData,
   errors: FormData,
-  result: string,
   status: string,
-  formDataChangeHandler?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
-  formDataBlurHandler?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  formDataChangeHandler?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
+  formDataBlurHandler?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
+  formDataSubmitHandler?: () => void,
 };

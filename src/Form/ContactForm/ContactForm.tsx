@@ -1,11 +1,13 @@
-import React from "react";
-import { Box, Grid, Typography } from "@mui/material";
-import { NAME_INPUT_LABEL, EMAIL_INPUT_LABEL, TEXTAREA_LABEL } from "../constants";
+import React, { useMemo } from "react";
+import { Box, Grid } from "@mui/material";
+import { NAME_INPUT_LABEL, EMAIL_INPUT_LABEL, TEXTAREA_LABEL, STATUS } from "../constants";
 import { StyledInputElement, StyledTextArea, SubmitButton, ErrorMessage } from "../styledComponents";
 import { FormProps } from './types';
 
-const ContactForm = ({emailFormData, errors, result, status, formDataChangeHandler, formDataBlurHandler}: FormProps ) => {
+const ContactForm = ({emailFormData, errors, status, formDataChangeHandler, formDataBlurHandler, formDataSubmitHandler }: FormProps ) => {
   const {email, name, message} = emailFormData;
+
+  const isDisabled = useMemo(() => status !== STATUS.SUBMIT, [status]);
 
   return (
     <Box component="form">
@@ -36,8 +38,7 @@ const ContactForm = ({emailFormData, errors, result, status, formDataChangeHandl
           {errors.message && <ErrorMessage variant="body2">{errors.message}</ErrorMessage>}
         </Grid>
         <Grid item>
-          <SubmitButton variant="contained">{status}</SubmitButton>
-          <Typography variant="h3">{result}</Typography>
+          <SubmitButton variant="contained" onClick={formDataSubmitHandler} disabled={isDisabled}>{status}</SubmitButton>
         </Grid>
       </Grid>
     </Box>
