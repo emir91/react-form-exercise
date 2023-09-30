@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { AlertColor } from '@mui/material/Alert';
 import { Grid } from "@mui/material";
 import useValidation from "./validation/useValidation";
 import ContactForm from "./ContactForm/ContactForm";
+import Signup from './SignupForm/SignupForm';
+import Login from './LoginForm/LoginForm';
 import Notification from "./Notifications/Notifications";
 import { StyledPaper, FormContainer, FormTitle } from "./styledComponents";
 import { FORM_TITLE, RESULT, STATUS, ALERT_COLORS, INITIAL_VALUES } from "./constants";
@@ -13,6 +16,8 @@ const [result, setResult] = useState(RESULT.DEFAULT);
 const [status, setStatus] = useState(STATUS.SUBMIT);
 const [snackbarOpen, setSnackbarOpen] = useState(false);
 const [snackbarType, setSnackbarType] = useState<AlertColor>(ALERT_COLORS.SUCCESS);
+
+const location = useLocation();
 
 const { values, setValues, errors, handleChange, handleBlur, areFieldsEmpty } = useValidation(INITIAL_VALUES, contactFormConfig);
 
@@ -56,19 +61,25 @@ const handleSubmit = () => {
           alignItems="center"
           spacing={4}
         >
-          <Grid item>
-            <FormTitle variant="h4">{FORM_TITLE}</FormTitle>
-          </Grid>
-          <Grid item>
-            <ContactForm 
-              emailFormData={values} 
-              errors={errors}  
-              status={status} 
-              formDataChangeHandler={handleChange} 
-              formDataBlurHandler={handleBlur}
-              formDataSubmitHandler={handleSubmit}
-            />
-          </Grid>
+          {location.pathname === '/contact' && (
+            <>
+              <Grid item>
+                <FormTitle variant="h4">{FORM_TITLE}</FormTitle>
+              </Grid>
+              <Grid item>
+                <ContactForm 
+                  emailFormData={values} 
+                  errors={errors}  
+                  status={status} 
+                  formDataChangeHandler={handleChange} 
+                  formDataBlurHandler={handleBlur}
+                  formDataSubmitHandler={handleSubmit}
+                />
+              </Grid>
+            </>
+          )}
+          {location.pathname === '/login' && <Login />}
+          {location.pathname === '/signup' && <Signup />}
         </Grid>
       </StyledPaper>
     </FormContainer>
